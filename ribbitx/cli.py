@@ -40,6 +40,7 @@ def listrepos():
   print(repo_json)
 
 
+# add functions available to be called as commands
 cli.add_command(ping)
 cli.add_command(version)
 cli.add_command(storage)
