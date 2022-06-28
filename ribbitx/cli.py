@@ -6,7 +6,7 @@ import click
 # base api url
 base_uri = "https://ribbitx.jfrog.io/artifactory/api"
 
-# api key. with this method, the api key must be exported to your local OS environment variables.
+# api key. with this method, the api key must be exported to your local OS environment variables as JFROG_API_KEY.
 api_key = os.environ.get('JFROG_API_KEY')
 
 # headers variable that is passed into the request string
