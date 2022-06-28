@@ -8,6 +8,7 @@ def read_requirements():
 
   return requirements
 
+# default setup.py function to define package and console script
 setup(
   name='ribbitx',
   version='0.1',
