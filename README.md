@@ -14,4 +14,4 @@ pip install .
 - ribbitx ping - This will do a status check on the JFrog Hosted instance by means of REST API HTTP Response. If you receive a Status 200, then your instance is up and available.
 - ribbitx version - This will return the hosted version of Artifactory.
 - ribbitx storage - This will return RAW JSON for the fileStoreSummary keys. This includes Total Space, Used Space, and Free Space of your instance.
-- ribbitx getrepos - This will return a list of your repositories. If you would like to filter by type, the cli tool will ask if you would like to view LOCAL, REMOTE, or VIRTUAL repos.
+- ribbitx getrepos - This will return a list of your repositoriesin RAW JSON. If you would like to filter by type, the cli tool will ask if you would like to view LOCAL, REMOTE, or VIRTUAL repos.
