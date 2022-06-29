@@ -21,7 +21,7 @@ pip install .
 ## Design Decisions
 - This being my very first Python CLI application, I had to do some research on how to execute this. My first thought was to build a terminal menu system that I could pass curl commands via BASH scripts or Python subprocess libraries.
 - Python3 was decided upon for writing the application. This would allow me to use some existing extensible frameworks for the CLI application. "Click" library was chosen due to it's easy to understand documentation.
-- After reading JFrog's documentation on how to interact with the Artifactory SaaS Web API, the "Requests" librarty was chosen for the application.
+- After reading JFrog's documentation on how to interact with the Artifactory SaaS Web API, the "Requests" library was chosen for the application.
 
 ## Sources
 - Official Click Documentation [https://click.palletsprojects.com/en/8.1.x/](https://click.palletsprojects.com/en/8.1.x/) 
