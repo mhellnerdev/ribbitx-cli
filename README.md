@@ -1,6 +1,7 @@
 # ribbitx-cli
 
 - Built on Python 3.8.10
+- Link to Artifactory Artifact [https://ribbitx.jfrog.io/artifactory/ribbitx-pypi/](https://ribbitx.jfrog.io/artifactory/ribbitx-pypi/)
 
 ## Installing RibbitX as an executable script
 - This can be installed as an executable script via pip. This allows for the simple running of command "ribbitx" to invoke from the command line.
