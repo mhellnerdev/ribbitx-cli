@@ -169,30 +169,30 @@ def usercreate():
 # delete user command
 @click.command("user-delete", short_help="Delete a user.")
 def userdelete():
-    """Delete a user."""
-    username = input("What is the username you wish to delete: ")
-    click.secho(f"Are you sure you want to delete {username}'s account? [y/N] ", fg="yellow", nl=False)
-    delete_user = click.getchar()
-    click.echo()
-    
-    if delete_user == "y":
-      deleteuser_request = requests.delete(f"{base_uri}/security/users/{username}", headers=headers)
-    elif delete_user == "n":
-      click.secho("Deletion Canceled", fg="bright_red")
-      exit()
-    else:
-      click.echo("Invalid Input. Try again.")
+  """Delete a user."""
+  username = input("What is the username you wish to delete: ")
+  click.secho(f"Are you sure you want to delete {username}'s account? [y/N] ", fg="yellow", nl=False)
+  delete_user = click.getchar()
+  click.echo()
+  
+  if delete_user == "y":
+    deleteuser_request = requests.delete(f"{base_uri}/security/users/{username}", headers=headers)
+  elif delete_user == "n":
+    click.secho("Deletion Canceled", fg="bright_red")
+    exit()
+  else:
+    click.echo("Invalid Input. Try again.")
 
-    deleteuser_status = (deleteuser_request.status_code)
-    
-    if deleteuser_status == 200:
-      click.secho(f"The user: {username} has been removed successfully.", fg="green")
-    elif deleteuser_status == 401:
-      click.secho(f"You are not authorized to delete user {username}", fg="bright_red")
-    elif deleteuser_status == 404:
-      click.secho(f"Error: User {username} not found.", fg="bright_red")
-    else:
-      click.secho("Error: User not deleted.", fg="bright_red")
+  deleteuser_status = (deleteuser_request.status_code)
+  
+  if deleteuser_status == 200:
+    click.secho(f"The user: {username} has been removed successfully.", fg="green")
+  elif deleteuser_status == 401:
+    click.secho(f"You are not authorized to delete user {username}", fg="bright_red")
+  elif deleteuser_status == 404:
+    click.secho(f"Error: User {username} not found.", fg="bright_red")
+  else:
+    click.secho("Error: User not deleted.", fg="bright_red")
 
     
 
