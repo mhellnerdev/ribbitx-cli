@@ -67,8 +67,8 @@ def storage():
 
 
 # listrepos command to check list of available repos on the hosted instance
-@click.command("listrepos", short_help="List repos.")
-def listrepos():
+@click.command("repo-list", short_help="List repos.")
+def repolist():
     """List repos."""
     repo_type = input(
         "What type of repositories would you like listed, LOCAL, REMOTE, or VIRTUAL? ")
@@ -80,7 +80,7 @@ def listrepos():
 
 
 # create repository command
-@click.command("repocreate", short_help="Create a new repository.")
+@click.command("repo-create", short_help="Create a new repository.")
 def repocreate():
     """Create a new repository."""
     repo_name = input("Please enter repo name: ")
@@ -97,9 +97,8 @@ def repocreate():
       click.echo(repocreate_request.content)
 
 
-
 # update repository description commands
-@click.command("repoupdate", short_help="Update a repository's public description.")
+@click.command("repo-update", short_help="Update a repository's public description.")
 def repoupdate():
     """Update a repository description."""
     click.echo("This tool will allow you to update the public description of a selected repository.")
@@ -138,7 +137,7 @@ def deleteuser():
 cli.add_command(ping)
 cli.add_command(version)
 cli.add_command(storage)
-cli.add_command(listrepos)
+cli.add_command(repolist)
 cli.add_command(repocreate)
-cli.add_command(deleteuser)
 cli.add_command(repoupdate)
+cli.add_command(deleteuser)
