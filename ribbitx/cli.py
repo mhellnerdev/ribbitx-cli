@@ -139,6 +139,7 @@ def userdelete():
     click.echo(click.style(f"Are you sure you want to delete {username}'s account? [y/n] ", fg="yellow"))
     delete_user = click.getchar()
     click.echo()
+    
     if delete_user == "y":
       deleteuser_request = requests.delete(f"{base_uri}/security/users/{username}", headers=headers)
     elif delete_user == "n":
