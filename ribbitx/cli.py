@@ -112,7 +112,7 @@ def repoupdate():
     if repoupdate_status == 200:
       click.echo(click.style("The repo public description has been updated!", fg="green"))
     else:
-      click.echo("There was an error. Repository not updated.")
+      click.echo(click.style("There was an error. Repository not updated.", fg="bright_red"))
 
   
 # create a new user command
@@ -141,11 +141,12 @@ def userdelete():
     click.echo()
     if delete_user == "y":
       deleteuser_request = requests.delete(f"{base_uri}/security/users/{username}", headers=headers)
-      deleteuser_status = (deleteuser_request.status_code)
     elif delete_user == "n":
-      click.echo("Deletion Canceled")
+      click.echo(click.style("Deletion Canceled", fg="bright_red"))
+      exit()
     else:
       click.echo("Invalid Input. Try again.")
+    deleteuser_status = (deleteuser_request.status_code)
     if deleteuser_status == 200:
       click.echo(click.style(f"The user: {username} has been removed successfully.", fg="green"))
     elif deleteuser_status == 401:
