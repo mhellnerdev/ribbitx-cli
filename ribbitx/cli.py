@@ -146,7 +146,9 @@ def userdelete():
       exit()
     else:
       click.echo("Invalid Input. Try again.")
+
     deleteuser_status = (deleteuser_request.status_code)
+    
     if deleteuser_status == 200:
       click.echo(click.style(f"The user: {username} has been removed successfully.", fg="green"))
     elif deleteuser_status == 401:
@@ -155,6 +157,8 @@ def userdelete():
       click.echo(click.style(f"Error: User {username} not found.", fg="bright_red"))
     else:
       click.echo(click.style("Error: User not deleted.", fg="bright_red"))
+
+    
 
 
 
