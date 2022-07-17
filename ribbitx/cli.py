@@ -118,6 +118,37 @@ def repoupdate():
       click.secho("There was an error. Repository not updated.", fg="bright_red")
 
 
+# delete repository command
+@click.command("repo-delete", short_help="Delete a repository.")
+def repodelete():
+  """Delete a repository."""
+  click.echo()
+  click.secho("This command will DELETE a selected local repository!", fg="bright_red", bold=True)
+  repo_to_delete = input("What is the name of the repository you wish to delete: ")
+  click.secho(f"Are you sure you want to delete the repository named: {repo_to_delete} [y/N] ", fg="yellow", bold=True, nl=False)
+  delete_repo = click.getchar()
+  click.echo()
+  
+  if delete_repo == "y":
+    deleterepo_request = requests.delete(f"{base_uri}/repositories/{repo_to_delete}", headers=headers)
+  elif delete_repo == "n":
+    click.secho("Deletion Canceled", fg="bright_red")
+    exit()
+  else:
+    click.echo("Invalid Input. Try again.")
+
+  deleterepo_status = (deleterepo_request.status_code)
+  
+  if deleterepo_status == 200:
+    click.secho(f"The repository: {repo_to_delete} has been removed successfully.", fg="green")
+  elif deleterepo_status == 401:
+    click.secho(f"You are not authorized to delete user {repo_to_delete}", fg="bright_red")
+  elif deleterepo_status == 404:
+    click.secho(f"Error: Repository {repo_to_delete} not found.", fg="bright_red")
+  else:
+    click.secho("Error: Repository not deleted.", fg="bright_red")
+
+
 # create a new user command
 @click.command("user-create", short_help="Create a new user.")
 def usercreate():
