@@ -39,18 +39,19 @@ def ping():
     ping_response = requests.get(f"{base_uri}/system/ping", headers=headers)
     status_code = ping_response.status_code
     http_status = str(ping_response.content)
-    click.echo(click.style(f"HTTP Response {status_code}", fg="green"))
+    click.secho(f"HTTP Response {status_code}", fg="green")
+    
     if status_code == 200:
-        click.echo(click.style("HTTP Status OK", fg="green"))
+        click.secho("HTTP Status OK", fg="green")
     else:
-        click.echo(click.style("Please check instance. Potentially Unhealthy.", fg="red"))
+        click.secho("Please check instance. Potentially Unhealthy.", fg="red")
 
 
 # version command to check version of hosted instance
 @click.command("version", short_help="Check version of Artifactory instance.")
 def version():
     """Checks version of Artifactory instance."""
-    click.echo(click.style("Getting remote instance version...", fg="green"))
+    click.secho("Getting remote instance version...", fg="green")
     version_response = requests.get(f"{base_uri}/system/version", headers=headers)
     version_json = version_response.json()
     click.echo("Artifactory Version: " + version_json["version"])
@@ -64,7 +65,7 @@ def storage():
     storage_reponse = requests.get(f"{base_uri}/storageinfo", headers=headers)
     storage_json = storage_reponse.json()
     pretty_storage = json.dumps(storage_json["fileStoreSummary"], indent=4)
-    click.echo(pretty_storage)
+    click.secho(pretty_storage, fg="green")
 
 
 # listrepos command to check list of available repos on the hosted instance
@@ -77,7 +78,7 @@ def repolist():
     repo_json = repo_response.json()
     pretty_repos = json.dumps(repo_json, indent=4)
     # click.echo(pretty_repos)
-    click.echo(repo_response.content)
+    click.secho(repo_response.content)
 
 
 # create repository command
@@ -91,10 +92,11 @@ def repocreate():
     repocreate_request = requests.put(f"{base_uri}/repositories/" + repo["key"], json=repo, headers=headers)
     repocreate_status = repocreate_request.status_code
     repocreate_json = repocreate_request.json
+    
     if repocreate_status == 200:
-      click.echo(click.style(f"Successfully created repository '{repo_name}'", fg="green"))
+      click.secho(f"Successfully created repository '{repo_name}'", fg="green")
     elif repocreate_status == 409:
-      click.echo(click.style("409 Error: An invalid character is being used.", fg="bright_red"))
+      click.secho("409 Error: An invalid character is being used.", fg="bright_red")
     else:
       click.echo(repocreate_request.content)
 
@@ -103,18 +105,19 @@ def repocreate():
 @click.command("repo-update", short_help="Update a repository's public description.")
 def repoupdate():
     """Update a repository description."""
-    click.echo(click.style("This tool will allow you to update the public description of a selected local repository.", fg="green"))
+    click.secho("This command will allow you to update the public description of a selected local repository.", fg="green")
     repo_name = input("Please enter the repository name you are updating: ")
     repo_description = input("Enter the new description: ")
     repo = { "key": repo_name, "description": repo_description }
     repoupdate_request = requests.post(f"{base_uri}/repositories/" + repo["key"], json=repo, headers=headers)
     repoupdate_status = repoupdate_request.status_code
+    
     if repoupdate_status == 200:
-      click.echo(click.style("The repo public description has been updated!", fg="green"))
+      click.secho("The repo public description has been updated!", fg="green")
     else:
-      click.echo(click.style("There was an error. Repository not updated.", fg="bright_red"))
+      click.secho("There was an error. Repository not updated.", fg="bright_red")
 
-  
+
 # create a new user command
 @click.command("user-create", short_help="Create a new user.")
 def usercreate():
@@ -125,10 +128,11 @@ def usercreate():
   user_info = { "name": new_username, "email": new_user_email, "password": new_user_password }
   new_user_request = requests.put(f"{base_uri}/security/users/" + user_info["name"], json=user_info, headers=headers)
   new_user_status = new_user_request.status_code
+  
   if new_user_status == 201:
-    click.echo(click.style(f"The user: {new_username} has been created.", fg="green"))
+    click.secho(f"The user: {new_username} has been created.", fg="green")
   else:
-    click.echo(click.style("There has been an error. Please make sure email address is correct or try a stronger password.", fg="bright_red"))
+    click.secho("There has been an error. Please make sure email address is correct or try a stronger password.", fg="bright_red")
 
 
 # delete user command
@@ -136,14 +140,14 @@ def usercreate():
 def userdelete():
     """Delete a user."""
     username = input("What is the username you wish to delete: ")
-    click.echo(click.style(f"Are you sure you want to delete {username}'s account? [y/n] ", fg="yellow"))
+    click.secho(f"Are you sure you want to delete {username}'s account? [y/N] ", fg="yellow", nl=False)
     delete_user = click.getchar()
     click.echo()
     
     if delete_user == "y":
       deleteuser_request = requests.delete(f"{base_uri}/security/users/{username}", headers=headers)
     elif delete_user == "n":
-      click.echo(click.style("Deletion Canceled", fg="bright_red"))
+      click.secho("Deletion Canceled", fg="bright_red")
       exit()
     else:
       click.echo("Invalid Input. Try again.")
@@ -151,13 +155,13 @@ def userdelete():
     deleteuser_status = (deleteuser_request.status_code)
     
     if deleteuser_status == 200:
-      click.echo(click.style(f"The user: {username} has been removed successfully.", fg="green"))
+      click.secho(f"The user: {username} has been removed successfully.", fg="green")
     elif deleteuser_status == 401:
-      click.echo(click.style(f"You are not authorized to delete user {username}", fg="bright_red"))
+      click.secho(f"You are not authorized to delete user {username}", fg="bright_red")
     elif deleteuser_status == 404:
-      click.echo(click.style(f"Error: User {username} not found.", fg="bright_red"))
+      click.secho(f"Error: User {username} not found.", fg="bright_red")
     else:
-      click.echo(click.style("Error: User not deleted.", fg="bright_red"))
+      click.secho("Error: User not deleted.", fg="bright_red")
 
     
 
@@ -171,5 +175,6 @@ cli.add_command(storage)
 cli.add_command(repolist)
 cli.add_command(repocreate)
 cli.add_command(repoupdate)
+cli.add_command(repodelete)
 cli.add_command(usercreate)
 cli.add_command(userdelete)
