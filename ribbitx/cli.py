@@ -31,7 +31,7 @@ def cli():
     """
 
 
-# use of API ping to check HTTP status of hosted instance
+# command makes use of API ping to check HTTP status of hosted instance
 @click.command("ping", short_help="Checks HTTP status of your Artifactory instance.")
 def ping():
     """Checks HTTP and ping status of your Artifactory instance."""
@@ -95,11 +95,10 @@ def repocreate():
     if repocreate_status == 200:
           click.echo(repocreate_request.content)
     else:
-      # print(repocreate_json["errors"]["message"])
       click.echo(repocreate_request.content)
 
 
-# update repository description commands
+# update repository description command
 @click.command("repo-update", short_help="Update a repository's public description.")
 def repoupdate():
     """Update a repository description."""
@@ -115,7 +114,7 @@ def repoupdate():
       click.echo("There was an error. Repository not updated.")
 
   
-# create a new user
+# create a new user command
 @click.command("user-create", short_help="Create a new user.")
 def usercreate():
   """Create a new user."""
