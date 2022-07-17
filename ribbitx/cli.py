@@ -103,7 +103,7 @@ def repocreate():
 @click.command("repo-update", short_help="Update a repository's public description.")
 def repoupdate():
     """Update a repository description."""
-    click.echo("This tool will allow you to update the public description of a selected repository.")
+    click.echo("This tool will allow you to update the public description of a selected local repository.")
     repo_name = input("Please enter the repository name you are updating: ")
     repo_description = input("Enter the new description: ")
     repo = { "key": repo_name, "description": repo_description }
