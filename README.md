@@ -2,7 +2,11 @@
 
 - Built on Python 3.8.10
 - Link to Artifactory Artifact [https://ribbitx.jfrog.io/artifactory/ribbitx-pypi/](https://ribbitx.jfrog.io/artifactory/ribbitx-pypi/)
-- Only 4 API's were used. I was not able to get PUT and POST methods working yet.
+- 8 API's used. GET, POST, PUT, DELETE methods for managing your SaaS instance of JFROG Artifactory.
+
+## Version 0.2 Updates
+- Added repo-create, repo-update, user-create, user-delete features. PUT, POST, and DELETE methods used.
+- Pruned requirements file.
 
 ## Installing RibbitX as an executable script
 - This can be installed as an executable script via pip. This allows for the simple running of command "ribbitx" to invoke from the command line.
@@ -16,7 +20,11 @@ pip install --editable .
 - ribbitx ping - This will do a status check on the JFrog Hosted instance by means of REST API HTTP Response. If you receive a Status 200, then your instance is up and available.
 - ribbitx version - This will return the hosted version of Artifactory.
 - ribbitx storage - This will return RAW JSON for the fileStoreSummary keys. This includes Total Space, Used Space, and Free Space of your instance.
-- ribbitx getrepos - This will return a list of your repositories in RAW JSON. If you would like to filter by type, the cli tool will ask if you would like to view LOCAL, REMOTE, or VIRTUAL repos.
+- ribbitx repo-list - This will return a list of your repositories in RAW JSON. If you would like to filter by type, the cli tool will ask if you would like to view LOCAL, REMOTE, or VIRTUAL repos.
+- ribbitx repo-create - This will create a new repository and exposes options to name the repository, choose local, remote, or virtual, and choose package type.
+- ribbitx repo-update - This will allow you to update the public description of a local repository.
+- ribbitx user-create - This will allow for creating new users with no permissions. You are able to set username, email, and password.
+- ribbitx user-delete - This will allow you to delete users.
 
 
 ## Design Decisions
