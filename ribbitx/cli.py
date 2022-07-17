@@ -1,7 +1,8 @@
-import requests
 import os
+import requests
 import click
 import json
+import getpass
 
 
 # base api url
@@ -53,6 +54,7 @@ def version():
     version_response = requests.get(f"{base_uri}/system/version", headers=headers)
     version_json = version_response.json()
     click.echo("Artifactory Version: " + version_json["version"])
+    click.echo("Artifactory Revision: " + version_json["revision"])
     click.echo(version_response.content)
 
 
@@ -67,11 +69,11 @@ def storage():
 
 
 # listrepos command to check list of available repos on the hosted instance
-@click.command("repo-list", short_help="List repos.")
+@click.command("repo-list", short_help="List repositories.")
 def repolist():
-    """List repos."""
+    """List repositories."""
     repo_type = input(
-        "What type of repositories would you like listed, LOCAL, REMOTE, or VIRTUAL? ")
+        "What type of repositories would you like listed, local, remote, or virtual? ")
     repo_response = requests.get(f"{base_uri}/repositories?type={repo_type}", headers=headers)
     repo_json = repo_response.json()
     pretty_repos = json.dumps(repo_json, indent=4)
@@ -108,15 +110,31 @@ def repoupdate():
     repoupdate_request = requests.post(f"{base_uri}/repositories/" + repo["key"], json=repo, headers=headers)
     repoupdate_status = repoupdate_request.status_code
     if repoupdate_status == 200:
-      click.echo("The repoo description public has been updated!")
+      click.echo("The repo public description has been updated!")
     else:
       click.echo("There was an error. Repository not updated.")
 
+  
+# create a new user
+@click.command("user-create", short_help="Create a new user.")
+def usercreate():
+  """Create a new user."""
+  new_username = input("Please enter new username: ")
+  new_user_email = input("Please enter new user's email address: ")
+  new_user_password = getpass.getpass("Enter Password: ", stream=None)
+  user_info = { "name": new_username, "email": new_user_email, "password": new_user_password }
+  new_user_request = requests.put(f"{base_uri}/security/users/" + user_info["name"], json=user_info, headers=headers)
+  new_user_status = new_user_request.status_code
+  if new_user_status == 201:
+    click.echo(f"The user: {new_username} has been created.")
+  else:
+    click.echo("There has been an error. User already exists or try a stronger password.")
+
 
 # delete user command
-@click.command("deleteuser", short_help="Delete user.")
-def deleteuser():
-    """Delete user."""
+@click.command("user-delete", short_help="Delete a user.")
+def userdelete():
+    """Delete a user."""
     username = input("What is the username: ")
     deleteuser_request = requests.delete(f"{base_uri}/security/users/{username}", headers=headers)
     deleteuser_status = (deleteuser_request.status_code)
@@ -140,4 +158,5 @@ cli.add_command(storage)
 cli.add_command(repolist)
 cli.add_command(repocreate)
 cli.add_command(repoupdate)
-cli.add_command(deleteuser)
+cli.add_command(usercreate)
+cli.add_command(userdelete)
