@@ -2,7 +2,7 @@
 
 - Built on Python 3.8.10
 - Link to Artifactory Artifact [https://ribbitx.jfrog.io/artifactory/ribbitx-pypi/](https://ribbitx.jfrog.io/artifactory/ribbitx-pypi/)
-- 8 API's used. GET, POST, PUT, DELETE methods for managing your SaaS instance of JFROG Artifactory.
+- 9 API's used. GET, POST, PUT, DELETE methods for managing your SaaS instance of JFROG Artifactory.
 
 ## Version 0.2 Updates
 - Added repo-create, repo-update, user-create, user-delete features. PUT, POST, and DELETE methods used.
@@ -12,7 +12,7 @@
 ## Version 0.3 Updates
 - Added color styles to command line prompts.
 - Improved prompts. Now asks Y/N for deletion prompts.
-- Added repo-delete feature
+- Added repo-delete feature.
 
 ## Installing RibbitX as an executable script
 - This can be installed as an executable script via pip. This allows for the simple running of command "ribbitx" to invoke from the command line.
@@ -28,6 +28,7 @@ pip install --editable .
 - **ribbitx storage** - This will return formatted JSON for the fileStoreSummary keys. This includes Total Space, Used Space, and Free Space of your instance.
 - **ribbitx repo-list** - This will return a list of your repositories in formatted JSON. If you would like to filter by type, the cli tool will ask if you would like to view LOCAL, REMOTE, or VIRTUAL repos.
 - **ribbitx repo-create** - This will create a new repository and exposes options to name the repository, choose local, remote, or virtual, and choose package type.
+- **ribbitx repo-delete** - This will allow you to delete a local repository by entering name.
 - **ribbitx repo-update** - This will allow you to update the public description of a local repository.
 - **ribbitx user-create** - This will allow for creating new users with zero permissions. You are able to set username, email, and password.
 - **ribbitx user-delete** - This will allow you to delete users.
