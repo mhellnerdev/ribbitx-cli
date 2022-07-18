@@ -93,15 +93,19 @@ def repocreate():
     repo = { "key": repo_name, "rclass": repo_type, "packageType": package_type, "description": repo_description }
     repocreate_request = requests.put(f"{base_uri}/repositories/" + repo["key"], json=repo, headers=headers)
     repocreate_status = repocreate_request.status_code
-    repocreate_json = repocreate_request.json
-    
+    repocreate_content = repocreate_request.content
+    repocreate_json = repocreate_request.json()
+    repocreate_error = repocreate_json["errors"]
+    repocreate_message = repocreate_error[0]
+
+
     if repocreate_status == 200:
       click.secho(f"Successfully created repository '{repo_name}'", fg="green")
     elif repocreate_status == 409:
       click.secho("409 Error: An invalid character is being used.", fg="bright_red")
     else:
       click.secho("There was an Error. See below.", fg="bright_red")
-      click.echo(repocreate_request.content)
+      click.secho(repocreate_message["message"], fg="yellow")
 
 
 # update repository description command
