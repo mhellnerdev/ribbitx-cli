@@ -9,6 +9,11 @@
 - Pruned requirements file.
 - Formatted JSON output for repo-list and storage commands.
 
+## Version 0.3 Updates
+- Added color styles to command line prompts.
+- Improved prompts. Now asks Y/N for deletion prompts.
+- Added repo-delete feature
+
 ## Installing RibbitX as an executable script
 - This can be installed as an executable script via pip. This allows for the simple running of command "ribbitx" to invoke from the command line.
 - To install, run the following command from the root of the project folder and it will make use of the setup.py file to install as an executable script.
