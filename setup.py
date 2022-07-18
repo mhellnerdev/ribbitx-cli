@@ -7,6 +7,7 @@ def read_requirements():
     requirements = content.split('\n')
 
   return requirements
+  
 
 # default setup.py function to define package and console script
 setup(
