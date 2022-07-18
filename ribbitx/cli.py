@@ -44,7 +44,7 @@ def ping():
     if status_code == 200:
         click.secho("HTTP Status OK", fg="green")
     else:
-        click.secho("Please check instance. Potentially Unhealthy.", fg="red")
+        click.secho("Please check instance. Potentially Unhealthy.", fg="bright_red")
 
 
 # version command to check version of hosted instance
@@ -85,10 +85,12 @@ def repolist():
 @click.command("repo-create", short_help="Create a new repository.")
 def repocreate():
     """Create a new repository."""
-    repo_name = input("Please enter repo name: ")
+    click.secho("\nThis command will CREATE a new local repository!", fg="green")
+    repo_name = input("Please enter new repository name: ")
     repo_type = input("Please enter repository type: (local, remote, virtual): ")
     package_type = input("Please enter the package type of this repo: ")
-    repo = { "key": repo_name, "rclass": repo_type, "packageType": package_type }
+    repo_description = input("Please enter the public description: ")
+    repo = { "key": repo_name, "rclass": repo_type, "packageType": package_type, "description": repo_description }
     repocreate_request = requests.put(f"{base_uri}/repositories/" + repo["key"], json=repo, headers=headers)
     repocreate_status = repocreate_request.status_code
     repocreate_json = repocreate_request.json
@@ -98,6 +100,7 @@ def repocreate():
     elif repocreate_status == 409:
       click.secho("409 Error: An invalid character is being used.", fg="bright_red")
     else:
+      click.secho("There was an Error. See below.", fg="bright_red")
       click.echo(repocreate_request.content)
 
 
