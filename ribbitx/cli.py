@@ -73,7 +73,7 @@ def storage():
 def repolist():
     """List repositories."""
     repo_type = input(
-        "What type of repositories would you like listed, local, remote, or virtual? ")
+        "What type of repositories would you like listed? (local, remote, or virtual) ")
     repo_response = requests.get(f"{base_uri}/repositories?type={repo_type}", headers=headers)
     repo_json = repo_response.json()
     pretty_repos = json.dumps(repo_json, indent=4)
@@ -85,10 +85,11 @@ def repolist():
 @click.command("repo-create", short_help="Create a new repository.")
 def repocreate():
     """Create a new repository."""
-    repo_name = input("Please enter repo name: ")
+    repo_name = input("Please enter the new repository name: ")
     repo_type = input("Please enter repository type: (local, remote, virtual): ")
-    package_type = input("Please enter the package type of this repo: ")
-    repo = { "key": repo_name, "rclass": repo_type, "packageType": package_type }
+    package_type = input("Please enter package type of this repository: ")
+    repo_description = input("Please enter the public description of the repository: ")
+    repo = { "key": repo_name, "rclass": repo_type, "packageType": package_type, "description": repo_description}
     repocreate_request = requests.put(f"{base_uri}/repositories/" + repo["key"], json=repo, headers=headers)
     repocreate_status = repocreate_request.status_code
     repocreate_json = repocreate_request.json
