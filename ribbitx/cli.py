@@ -184,7 +184,6 @@ def usercreate():
 @click.command("user-delete", short_help="Delete a user.")
 def userdelete():
   """Delete a user."""
-  click.echo()
   click.secho("This command will DELETE a selected user!", fg="bright_red", bold=True)
   username = input("What is the username you wish to delete: ")
   click.secho(f"Are you sure you want to delete {username}'s account? [y/n] ", fg="yellow", nl=False)
@@ -194,7 +193,7 @@ def userdelete():
   if delete_user == "y":
     deleteuser_request = requests.delete(f"{base_uri}/security/users/{username}", headers=headers)
   elif delete_user == "n":
-    click.secho("Deletion Canceled", fg="bright_red")
+    click.secho("Deletion Canceled.", fg="bright_red")
     exit()
   else:
     click.echo("Invalid Input. Try again.")
@@ -202,7 +201,7 @@ def userdelete():
   deleteuser_status = deleteuser_request.status_code
   
   if deleteuser_status == 200:
-    click.secho(f"The user: {username} has been removed successfully.", fg="green")
+    click.secho(f"The user: {username} has been deleted successfully.", fg="green")
   elif deleteuser_status == 401:
     click.secho(f"You are not authorized to delete user {username}", fg="bright_red")
   elif deleteuser_status == 404:
