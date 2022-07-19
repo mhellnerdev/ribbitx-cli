@@ -20,15 +20,18 @@ headers = {"X-JFrog-Art-Api": api_key}
 
 # required to group below extensible commands
 @click.group()
+@click.version_option()
 def cli():
-    """
-      Welcome to the RibbitX CLI tool.
+  """
+    Welcome to the RibbitX CLI tool.
 
-      This tool was authored to assist in the management of your
-      Cloud Hosted Artifactory Instance.
+    This tool was authored to assist in the management of your
+    Cloud Hosted Artifactory Instance.
 
-      Usage is listed in the commands section below.    
-    """
+    Usage is listed in the commands section below.    
+  """
+
+
 
 
 # command makes use of API ping to check HTTP status of hosted instance
@@ -224,3 +227,4 @@ cli.add_command(repoupdate)
 cli.add_command(repodelete)
 cli.add_command(usercreate)
 cli.add_command(userdelete)
+
