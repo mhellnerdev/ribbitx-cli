@@ -55,8 +55,8 @@ def version():
     click.secho("Getting remote instance version...", fg="green")
     version_response = requests.get(f"{base_uri}/system/version", headers=headers)
     version_json = version_response.json()
-    click.echo("Artifactory Version: " + version_json["version"])
-    click.echo("Artifactory Revision: " + version_json["revision"])
+    click.secho("Artifactory Version: " + version_json["version"])
+    click.secho("Artifactory Revision: " + version_json["revision"])
 
 
 # storage command to check status of hosted instance storage
@@ -163,6 +163,17 @@ def repodelete():
     click.secho("Error: Repository not deleted.", fg="bright_red")
 
 
+# # list users command
+# @click.command("user-list", short_help="List users of your instance.")
+# def userlist():
+#   """List users of your instance"""
+#   userlist_request = requests.get(f"{base_uri}/security/users", headers=headers)
+#   userlist_json = userlist_request.json()
+#   userlist_names = userlist_json["name"]
+#   click.secho(userlist_names[0])
+#   # click.secho(userlist_names)
+
+
 # create a new user command
 @click.command("user-create", short_help="Create a new user.")
 def usercreate():
@@ -219,6 +230,7 @@ cli.add_command(repolist)
 cli.add_command(repocreate)
 cli.add_command(repoupdate)
 cli.add_command(repodelete)
+cli.add_command(userlist)
 cli.add_command(usercreate)
 cli.add_command(userdelete)
 
