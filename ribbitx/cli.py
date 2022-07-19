@@ -32,8 +32,6 @@ def cli():
   """
 
 
-
-
 # command makes use of API ping to check HTTP status of hosted instance
 @click.command("ping", short_help="Checks HTTP status of your Artifactory instance.")
 def ping():
@@ -211,9 +209,6 @@ def userdelete():
     click.secho(f"Error: User {username} not found.", fg="bright_red")
   else:
     click.secho("Error: User not deleted.", fg="bright_red")
-
-    
-
 
 
 
