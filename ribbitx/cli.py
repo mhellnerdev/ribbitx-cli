@@ -163,15 +163,19 @@ def repodelete():
     click.secho("Error: Repository not deleted.", fg="bright_red")
 
 
-# # list users command
-# @click.command("user-list", short_help="List users of your instance.")
-# def userlist():
-#   """List users of your instance"""
-#   userlist_request = requests.get(f"{base_uri}/security/users", headers=headers)
-#   userlist_json = userlist_request.json()
-#   userlist_names = userlist_json["name"]
-#   click.secho(userlist_names[0])
-#   # click.secho(userlist_names)
+# list users command
+@click.command("user-list", short_help="List users of your instance.")
+def userlist():
+  """List users of your instance"""
+  userlist_request = requests.get(f"{base_uri}/security/users", headers=headers)
+  userlist_json = userlist_request.json()
+
+  for name in userlist_json:
+    print(userlist_json['name'])
+
+  # userlist_names = userlist_json["name"]
+  # click.secho(userlist_names[0])
+  # click.secho(userlist_names)
 
 
 # create a new user command
@@ -230,7 +234,7 @@ cli.add_command(repolist)
 cli.add_command(repocreate)
 cli.add_command(repoupdate)
 cli.add_command(repodelete)
-# cli.add_command(userlist)
+cli.add_command(userlist)
 cli.add_command(usercreate)
 cli.add_command(userdelete)
 
