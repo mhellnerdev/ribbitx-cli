@@ -4,15 +4,20 @@
 - Link to Artifactory Artifact [https://ribbitx.jfrog.io/artifactory/ribbitx-pypi/](https://ribbitx.jfrog.io/artifactory/ribbitx-pypi/)
 - 9 API's used. GET, POST, PUT, DELETE methods for managing your SaaS instance of JFROG Artifactory.
 
-## Version 0.2 Updates
+### Version 0.2 Updates
 - Added repo-create, repo-update, user-create, user-delete features. PUT, POST, and DELETE methods used.
 - Pruned requirements file.
 - Formatted JSON output for repo-list and storage commands.
 
-## Version 0.3 Updates
+### Version 0.3 Updates
 - Added color styles to command line prompts.
 - Improved prompts. Now asks Y/N for deletion prompts.
 - Added repo-delete feature.
+- Added ability to enter description for create-repo command.
+
+### Version 0.4 Updates
+- Error handling is now working for repo-create command.
+- added ribbitx --version feature.
 
 ## Installing RibbitX as an executable script
 - This can be installed as an executable script via pip. This allows for the simple running of command "ribbitx" to invoke from the command line.
