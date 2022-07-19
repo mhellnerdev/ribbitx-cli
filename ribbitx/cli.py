@@ -85,27 +85,31 @@ def repolist():
 @click.command("repo-create", short_help="Create a new repository.")
 def repocreate():
     """Create a new repository."""
-    click.secho("\nThis command will CREATE a new local repository!", fg="green")
+    click.secho("This command will CREATE a new local repository!", fg="green")
     repo_name = input("Please enter new repository name: ")
     repo_type = input("Please enter repository type: (local, remote, virtual): ")
-    package_type = input("Please enter the package type of this repo: ")
+    package_type = input("Please enter the package type of this repository: ")
     repo_description = input("Please enter the public description: ")
     repo = { "key": repo_name, "rclass": repo_type, "packageType": package_type, "description": repo_description }
-    repocreate_request = requests.put(f"{base_uri}/repositories/" + repo["key"], json=repo, headers=headers)
-    repocreate_status = repocreate_request.status_code
-    repocreate_content = repocreate_request.content
-    repocreate_json = repocreate_request.json()
-    repocreate_error = repocreate_json["errors"]
-    repocreate_message = repocreate_error[0]
+    
+    try:
+      repocreate_request = requests.put(f"{base_uri}/repositories/" + repo["key"], json=repo, headers=headers)
+      repocreate_status = repocreate_request.status_code
+      repocreate_content = repocreate_request.content
 
-
-    if repocreate_status == 200:
-      click.secho(f"Successfully created repository '{repo_name}'", fg="green")
-    elif repocreate_status == 409:
-      click.secho("409 Error: An invalid character is being used.", fg="bright_red")
-    else:
-      click.secho("There was an Error. See below.", fg="bright_red")
-      click.secho(repocreate_message["message"], fg="yellow")
+      if repocreate_status == 200:
+        click.secho(f"Successfully created repository '{repo_name}'", fg="green")
+      else:
+        try:  
+          repocreate_json = repocreate_request.json()
+          repocreate_error = repocreate_json["errors"]
+          repocreate_message = repocreate_error[0]
+          click.secho("There was an Error. See below:", fg="bright_red")
+          click.secho(repocreate_message["message"], fg="yellow")
+        except:
+          click.echo("There was an undefined error!")
+    except:
+      click.secho("There has been an exception error.", fg="bright_red")
 
 
 # update repository description command
@@ -118,6 +122,8 @@ def repoupdate():
     repo = { "key": repo_name, "description": repo_description }
     repoupdate_request = requests.post(f"{base_uri}/repositories/" + repo["key"], json=repo, headers=headers)
     repoupdate_status = repoupdate_request.status_code
+    repoupdate_content = repoupdate_request.content
+    repoupdate_json = repoupdate_request.json
     
     if repoupdate_status == 200:
       click.secho("The repo public description has been updated!", fg="green")
