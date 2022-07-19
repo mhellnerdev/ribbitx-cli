@@ -5,6 +5,7 @@
 - 9 API's used. GET, POST, PUT, DELETE methods for managing your SaaS instance of JFROG Artifactory.
 
 ### Version 0.2 Updates
+- Changed commands to prefix with repo or user depending on action being taken.
 - Added repo-create, repo-update, user-create, user-delete features. PUT, POST, and DELETE methods used.
 - Pruned requirements file.
 - Formatted JSON output for repo-list and storage commands.
