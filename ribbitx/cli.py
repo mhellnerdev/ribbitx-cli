@@ -167,15 +167,14 @@ def repodelete():
 @click.command("user-list", short_help="List users of your instance.")
 def userlist():
   """List users of your instance"""
-  userlist_request = requests.get(f"{base_uri}/security/users", headers=headers)
-  userlist_json = userlist_request.json()
-
-  for name in userlist_json:
-    print(userlist_json['name'])
-
-  # userlist_names = userlist_json["name"]
-  # click.secho(userlist_names[0])
-  # click.secho(userlist_names)
+  userlist_response = requests.get(f"{base_uri}/security/users", headers=headers)
+  userlist_status = userlist_response.status_code
+  userlist_content = userlist_response.content
+  userlist_json = userlist_response.json()
+  userlist_dict = json.loads(userlist_response.text)
+ 
+  for username in userlist_dict:
+    click.secho(username["name"])
 
 
 # create a new user command
