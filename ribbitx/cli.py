@@ -230,7 +230,7 @@ cli.add_command(repolist)
 cli.add_command(repocreate)
 cli.add_command(repoupdate)
 cli.add_command(repodelete)
-cli.add_command(userlist)
+# cli.add_command(userlist)
 cli.add_command(usercreate)
 cli.add_command(userdelete)
 
