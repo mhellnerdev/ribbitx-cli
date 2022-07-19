@@ -139,7 +139,7 @@ def repodelete():
   click.echo()
   click.secho("This command will DELETE a selected local repository!", fg="bright_red", bold=True)
   repo_to_delete = input("What is the name of the repository you wish to delete: ")
-  click.secho(f"Are you sure you want to delete the repository named: {repo_to_delete} [y/n ", fg="yellow", bold=True, nl=False)
+  click.secho(f"Are you sure you want to delete the repository named: {repo_to_delete} [y/n] ", fg="yellow", bold=True, nl=False)
   delete_repo = click.getchar()
   click.echo()
   
@@ -151,7 +151,7 @@ def repodelete():
   else:
     click.echo("Invalid Input. Try again.")
 
-  deleterepo_status = (deleterepo_request.status_code)
+  deleterepo_status = deleterepo_request.status_code
   
   if deleterepo_status == 200:
     click.secho(f"The repository: {repo_to_delete} has been removed successfully.", fg="green")
@@ -199,7 +199,7 @@ def userdelete():
   else:
     click.echo("Invalid Input. Try again.")
 
-  deleteuser_status = (deleteuser_request.status_code)
+  deleteuser_status = deleteuser_request.status_code
   
   if deleteuser_status == 200:
     click.secho(f"The user: {username} has been removed successfully.", fg="green")
