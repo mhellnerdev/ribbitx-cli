@@ -219,12 +219,11 @@ def usercreate():
 def userdelete():
   """Delete a user."""
   click.secho("This command will DELETE a selected user!", fg="bright_red", bold=True)
+  
+  # get user list and store in json
   userlist_response = requests.get(f"{base_uri}/security/users", headers=headers)
-  userlist_status = userlist_response.status_code
-  userlist_content = userlist_response.content
-  userlist_json = userlist_response.json()
   userlist_dict = json.loads(userlist_response.text)
- 
+  # loop through json list of users
   for username in userlist_dict:
     click.secho(username["name"])
   
@@ -232,19 +231,22 @@ def userdelete():
   click.secho(f"Are you sure you want to delete {username}'s account? [y/n] ", fg="yellow", nl=False)
   delete_user = click.getchar(echo=True)
   delete_answer = delete_user.lower()
-  click.echo()
-  
+  click.echo()  
 
-  if delete_answer == 'y':    
-    deleteuser_request = requests.delete(f"{base_uri}/security/users/{username}", headers=headers)
-    deleteuser_status = deleteuser_request.status_code
-  elif delete_answer == 'n':
-    click.secho("Deletion Canceled.", fg="bright_red")
-    exit()
-  else:
-    click.echo("Invalid Input. Try again.")
-
-  
+  try:
+    if delete_answer == 'y':    
+      deleteuser_request = requests.delete(f"{base_uri}/security/users/{username}", headers=headers)
+      deleteuser_status = deleteuser_request.status_code
+    elif delete_answer == 'n':
+      click.secho("Deletion Canceled.", fg="bright_red")
+      exit()
+    else:
+      click.secho("Invalid Input. Try again.", fg="yellow")
+      exit()
+  except Exception as e:
+    click.secho("There has been an exception error!")
+    traceback.print_exc() # used for debugging
+    click.secho(e)    
   
   if deleteuser_status == 200:
     click.secho(f"The user: {username} has been deleted successfully.", fg="green")
@@ -254,8 +256,6 @@ def userdelete():
     click.secho(f"Error: User {username} not found.", fg="bright_red")
   else:
     click.secho("Error: User not deleted.", fg="bright_red")
-
-  
 
 
 # add functions available to be called as commands
