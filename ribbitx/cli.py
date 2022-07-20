@@ -150,7 +150,7 @@ def repodelete():
   for repo_name in repo_json:
     click.secho(repo_name["key"])
 
-  click.secho("This command will DELETE a selected local repository!", fg="bright_red", bold=True)
+  click.secho("This command will DELETE a selected repository!", fg="bright_red", bold=True)
   repo_to_delete = input("What is the name of the repository you wish to delete: ")
   click.secho(f"Are you sure you want to delete the repository named: {repo_to_delete} [y/n] ", fg="yellow", bold=True, nl=False)
   delete_repo = click.getchar()
