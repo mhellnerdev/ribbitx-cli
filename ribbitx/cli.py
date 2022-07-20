@@ -197,10 +197,8 @@ def usercreate():
         click.secho(f"The user: {new_username} has been created.", fg="green")
       elif new_user_status == 400:
         new_user_content = new_user_response.content
-
         click.secho("There was an Error 400. See below:", fg="bright_red")
-        new_user_json = json.loads(new_user_content)
-        
+        new_user_json = json.loads(new_user_content)        
         click.secho(new_user_json["errors"][0]["message"], fg="yellow")
       else:
         click.secho("There was an Undefined Error. See below:", fg="bright_red")
@@ -208,11 +206,11 @@ def usercreate():
         click.secho(new_user_content)        
     except Exception as e:
       click.secho("There was an exception error!", fg="bright_red")
-      # traceback.print_exc() # used for debugging
+      traceback.print_exc() # used for debugging
       click.echo(e)    
   except Exception as e:
     click.secho("There was an exception error!", fg="bright_red")
-    # traceback.print_exc() # used for debugging
+    traceback.print_exc() # used for debugging
     click.secho(e)
 
 
@@ -232,18 +230,21 @@ def userdelete():
   
   username = input("What is the username you wish to delete: ")
   click.secho(f"Are you sure you want to delete {username}'s account? [y/n] ", fg="yellow", nl=False)
-  delete_user = click.getchar()
+  delete_user = click.getchar(echo=True)
+  delete_answer = delete_user.lower()
   click.echo()
   
-  if delete_user == "y":
+
+  if delete_answer == 'y':    
     deleteuser_request = requests.delete(f"{base_uri}/security/users/{username}", headers=headers)
-  elif delete_user == "n":
+    deleteuser_status = deleteuser_request.status_code
+  elif delete_answer == 'n':
     click.secho("Deletion Canceled.", fg="bright_red")
     exit()
   else:
     click.echo("Invalid Input. Try again.")
 
-  deleteuser_status = deleteuser_request.status_code
+  
   
   if deleteuser_status == 200:
     click.secho(f"The user: {username} has been deleted successfully.", fg="green")
@@ -253,6 +254,8 @@ def userdelete():
     click.secho(f"Error: User {username} not found.", fg="bright_red")
   else:
     click.secho("Error: User not deleted.", fg="bright_red")
+
+  
 
 
 # add functions available to be called as commands
