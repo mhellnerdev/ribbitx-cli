@@ -4,7 +4,7 @@
 - Link to Artifactory Artifact [https://ribbitx.jfrog.io/artifactory/ribbitx-pypi/](https://ribbitx.jfrog.io/artifactory/ribbitx-pypi/)
 - 10 API's used. GET, POST, PUT, DELETE methods for managing your SaaS instance of JFROG Artifactory.
 
-### Version 0.45 Updates - Major Update
+### Version 0.50 Updates - Major Update
 - Added user-list command.
 - The user-list prints to console when running user-delete.
 - The repo-list command now prints a more readable list to the console. The json is now looping through and outputting a cleaner formatted list.
