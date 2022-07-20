@@ -80,9 +80,12 @@ def repolist():
         "What type of repositories would you like listed, local, remote, or virtual? ")
     repo_response = requests.get(f"{base_uri}/repositories?type={repo_type}", headers=headers)
     repo_json = repo_response.json()
-    pretty_repos = json.dumps(repo_json, indent=4)
+    # pretty_repos = json.dumps(repo_json, indent=4)
     # click.echo(pretty_repos)
-    click.secho(repo_response.content)
+    # click.secho(repo_response.content)
+
+    for repo_name in repo_json:
+      click.secho(repo_name["key"])
 
 
 # create repository command
