@@ -136,7 +136,6 @@ def repoupdate():
 
 
 # delete repository command
-# TODO work on error handling for this command
 @click.command("repo-delete", short_help="Delete a repository.")
 def repodelete():
   """Delete a repository."""
