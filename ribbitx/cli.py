@@ -1,8 +1,11 @@
+from encodings import search_function
 import os
+from xxlimited import new
 import requests
 import click
 import json
 import getpass
+import traceback
 
 
 # base api url
@@ -185,13 +188,32 @@ def usercreate():
   new_user_email = input("Please enter new user's email address: ")
   new_user_password = getpass.getpass("Enter Password: ", stream=None)
   user_info = { "name": new_username, "email": new_user_email, "password": new_user_password }
-  new_user_request = requests.put(f"{base_uri}/security/users/" + user_info["name"], json=user_info, headers=headers)
-  new_user_status = new_user_request.status_code
+  new_user_response = requests.put(f"{base_uri}/security/users/" + user_info["name"], json=user_info, headers=headers)
+  new_user_status = new_user_response.status_code
   
-  if new_user_status == 201:
-    click.secho(f"The user: {new_username} has been created.", fg="green")
-  else:
-    click.secho("There has been an error. Please make sure email address is correct or try a stronger password.", fg="bright_red")
+  try:
+    try:
+      if new_user_status == 201:
+        click.secho(f"The user: {new_username} has been created.", fg="green")
+      elif new_user_status == 400:
+        new_user_content = new_user_response.content
+
+        click.secho("There was an Error 400. See below:", fg="bright_red")
+        new_user_json = json.loads(new_user_content)
+        
+        click.secho(new_user_json["errors"][0]["message"], fg="yellow")  
+      else:
+        click.secho("There was an Undefined Error. See below:", fg="bright_red")
+        click.secho(new_user_response)
+        click.secho(new_user_content)        
+    except Exception as e:
+      click.secho("There was an exception error!", fg="bright_red")
+      # traceback.print_exc() # used for debugging
+      click.echo(e)    
+  except Exception as e:
+    click.secho("There was an exception error!", fg="bright_red")
+    # traceback.print_exc() # used for debugging
+    click.secho(e)
 
 
 # delete user command
@@ -199,6 +221,15 @@ def usercreate():
 def userdelete():
   """Delete a user."""
   click.secho("This command will DELETE a selected user!", fg="bright_red", bold=True)
+  userlist_response = requests.get(f"{base_uri}/security/users", headers=headers)
+  userlist_status = userlist_response.status_code
+  userlist_content = userlist_response.content
+  userlist_json = userlist_response.json()
+  userlist_dict = json.loads(userlist_response.text)
+ 
+  for username in userlist_dict:
+    click.secho(username["name"])
+  
   username = input("What is the username you wish to delete: ")
   click.secho(f"Are you sure you want to delete {username}'s account? [y/n] ", fg="yellow", nl=False)
   delete_user = click.getchar()
