@@ -46,8 +46,8 @@ pip install --editable .
 - **ribbitx repo-delete** - This will allow you to delete a local repository by entering name.
 - **ribbitx repo-update** - This will allow you to update the public description of a local repository.
 - **ribbitx user-create** - This will allow for creating new users with zero permissions. You are able to set username, email, and password.
-- **ribbitx user-delete** - This will allow you to delete users.
 - **ribbitx user-list** - This will allow you to list all users with accounts on your instance.
+- **ribbitx user-delete** - This will allow you to delete a user account on your instance.
 
 
 ## Design Decisions
