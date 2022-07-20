@@ -157,15 +157,19 @@ def repodelete():
   delete_answer = delete_repo.lower()
   click.echo()
   
-  if delete_repo == "y":
-    deleterepo_request = requests.delete(f"{base_uri}/repositories/{repo_to_delete}", headers=headers)
-  elif delete_repo == "n":
-    click.secho("Deletion Canceled", fg="bright_red")
-    exit()
-  else:
-    click.echo("Invalid Input. Try again.")
-
-  deleterepo_status = deleterepo_request.status_code
+  try:
+    if delete_answer == "y":
+      deleterepo_request = requests.delete(f"{base_uri}/repositories/{repo_to_delete}", headers=headers)
+      deleterepo_status = deleterepo_request.status_code
+    elif delete_answer == "n":
+      click.secho("Deletion Canceled", fg="bright_red")
+      exit()
+    else:
+      click.echo("Invalid Input. Try again.")
+  except Exception as e:
+    click.secho("There has been an exception error!", fg="bright_red")
+    traceback.print_exc() # used for debugging
+    click.secho(e)
   
   if deleterepo_status == 200:
     click.secho(f"The repository: {repo_to_delete} has been removed successfully.", fg="green")
@@ -220,7 +224,7 @@ def usercreate():
       traceback.print_exc() # used for debugging
       click.echo(e)    
   except Exception as e:
-    click.secho("There was an exception error!", fg="bright_red")
+    click.secho("There has been an exception error!", fg="bright_red")
     traceback.print_exc() # used for debugging
     click.secho(e)
 
