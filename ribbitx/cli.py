@@ -255,7 +255,6 @@ def userdelete():
     click.secho("Error: User not deleted.", fg="bright_red")
 
 
-
 # add functions available to be called as commands
 cli.add_command(ping)
 cli.add_command(version)
