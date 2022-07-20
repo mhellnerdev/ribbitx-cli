@@ -80,9 +80,6 @@ def repolist():
         "What type of repositories would you like listed, local, remote, or virtual? ")
     repo_response = requests.get(f"{base_uri}/repositories?type={repo_type}", headers=headers)
     repo_json = repo_response.json()
-    # pretty_repos = json.dumps(repo_json, indent=4)
-    # click.echo(pretty_repos)
-    # click.secho(repo_response.content)
 
     for repo_name in repo_json:
       click.secho(repo_name["key"])
@@ -139,14 +136,25 @@ def repoupdate():
 
 
 # delete repository command
+# TODO work on error handling for this command
 @click.command("repo-delete", short_help="Delete a repository.")
 def repodelete():
   """Delete a repository."""
-  click.echo()
+  click.secho("This command will DELETE a selected local repository!", fg="bright_red", bold=True)
+  repo_type = input("What type of repository would you like to DELETE? (local, remote, or virtual) ")
+
+  # get repository list
+  repo_response = requests.get(f"{base_uri}/repositories?type={repo_type}", headers=headers)
+  repo_json = repo_response.json()
+  # loop through repo list json
+  for repo_name in repo_json:
+    click.secho(repo_name["key"])
+
   click.secho("This command will DELETE a selected local repository!", fg="bright_red", bold=True)
   repo_to_delete = input("What is the name of the repository you wish to delete: ")
   click.secho(f"Are you sure you want to delete the repository named: {repo_to_delete} [y/n] ", fg="yellow", bold=True, nl=False)
   delete_repo = click.getchar()
+  delete_answer = delete_repo.lower()
   click.echo()
   
   if delete_repo == "y":
