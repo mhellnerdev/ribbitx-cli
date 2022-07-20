@@ -201,7 +201,7 @@ def usercreate():
         click.secho("There was an Error 400. See below:", fg="bright_red")
         new_user_json = json.loads(new_user_content)
         
-        click.secho(new_user_json["errors"][0]["message"], fg="yellow")  
+        click.secho(new_user_json["errors"][0]["message"], fg="yellow")
       else:
         click.secho("There was an Undefined Error. See below:", fg="bright_red")
         click.secho(new_user_response)
