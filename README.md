@@ -2,13 +2,20 @@
 
 - Built on Python 3.8.10
 - Link to Artifactory Artifact [https://ribbitx.jfrog.io/artifactory/ribbitx-pypi/](https://ribbitx.jfrog.io/artifactory/ribbitx-pypi/)
-- 9 API's used. GET, POST, PUT, DELETE methods for managing your SaaS instance of JFROG Artifactory.
+- 10 API's used. GET, POST, PUT, DELETE methods for managing your SaaS instance of JFROG Artifactory.
 
-### Version 0.2 Updates
-- Changed commands to prefix with repo or user depending on action being taken.
-- Added repo-create, repo-update, user-create, user-delete features. PUT, POST, and DELETE methods used.
-- Pruned requirements file.
-- Formatted JSON output for repo-list and storage commands.
+### Version 0.45 Updates - Major Update
+- Added user-list command.
+- The user-list prints to console when running user-delete.
+- The repo-list command now prints a more readable list to the console. The json is now looping through and outputting a cleaner formatted list.
+- The repo-list now prints to the console when running repo-delete.
+- Error Handling added. When a command fails, the JSON response error key is printed to the console or an exception is thrown.
+- Error handling is now working for create-repo, update repo, delete-repo, user-create, and user-delete.
+- Case-sensitivity is no longer an issue when given a "y/n" prompt.
+
+### Version 0.4 Updates
+- Error handling is now working for repo-create command.
+- added ribbitx --version feature.
 
 ### Version 0.3 Updates
 - Added color styles to command line prompts.
@@ -16,9 +23,11 @@
 - Added repo-delete feature.
 - Added ability to enter description for create-repo command.
 
-### Version 0.4 Updates
-- Error handling is now working for repo-create command.
-- added ribbitx --version feature.
+### Version 0.2 Updates
+- Changed commands to prefix with repo or user depending on action being taken.
+- Added repo-create, repo-update, user-create, user-delete features. PUT, POST, and DELETE methods used.
+- Pruned requirements file.
+- Formatted JSON output for repo-list and storage commands.
 
 ## Installing RibbitX as an executable script
 - This can be installed as an executable script via pip. This allows for the simple running of command "ribbitx" to invoke from the command line.
@@ -38,6 +47,7 @@ pip install --editable .
 - **ribbitx repo-update** - This will allow you to update the public description of a local repository.
 - **ribbitx user-create** - This will allow for creating new users with zero permissions. You are able to set username, email, and password.
 - **ribbitx user-delete** - This will allow you to delete users.
+- **ribbitx user-list** - This will allow you to list all users with accounts on your instance.
 
 
 ## Design Decisions
