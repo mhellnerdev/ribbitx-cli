@@ -1,6 +1,4 @@
-from encodings import search_function
 import os
-from xxlimited import new
 import requests
 import click
 import json
@@ -77,10 +75,11 @@ def storage():
 def repolist():
     """List repositories."""
     repo_type = input(
-        "What type of repositories would you like listed, local, remote, or virtual? ")
+        "What type of repositories would you like listed? [local, remote, or virtual] ")
     repo_response = requests.get(f"{base_uri}/repositories?type={repo_type}", headers=headers)
     repo_json = repo_response.json()
 
+    # loop through repo json and print to console
     for repo_name in repo_json:
       click.secho(repo_name["key"])
 
@@ -116,23 +115,39 @@ def repocreate():
       click.secho("There has been an exception error.", fg="bright_red")
 
 
-# update repository description command
+# update repository description command 
 @click.command("repo-update", short_help="Update a repository's public description.")
 def repoupdate():
     """Update a repository description."""
-    click.secho("This command will allow you to update the public description of a selected local repository.", fg="green")
+    click.secho("This command will allow you to UPDATE the public description of a selected repository.", fg="green")
+    repo_type = input("What type of repositories would you like listed? [local, remote, or virtual] ")
+    
+    # get repository list
+    repo_response = requests.get(f"{base_uri}/repositories?type={repo_type}", headers=headers)
+    repo_json = repo_response.json()
+    # loop through repo json and print to console
+    for repo_name in repo_json:
+      click.secho(repo_name["key"])
+
     repo_name = input("Please enter the repository name you are updating: ")
     repo_description = input("Enter the new description: ")
     repo = { "key": repo_name, "description": repo_description }
-    repoupdate_request = requests.post(f"{base_uri}/repositories/" + repo["key"], json=repo, headers=headers)
-    repoupdate_status = repoupdate_request.status_code
-    repoupdate_content = repoupdate_request.content
-    repoupdate_json = repoupdate_request.json
-    
-    if repoupdate_status == 200:
-      click.secho("The repo public description has been updated!", fg="green")
-    else:
-      click.secho("There was an error. Repository not updated.", fg="bright_red")
+
+    try:
+      repoupdate_request = requests.post(f"{base_uri}/repositories/" + repo["key"], json=repo, headers=headers)
+      repoupdate_status = repoupdate_request.status_code
+      if repoupdate_status == 200:
+        click.secho("The repo public description has been updated!", fg="green")
+      else:
+        click.secho("There was an error. Repository not updated.", fg="bright_red")
+        repoupdate_content = repoupdate_request.content
+        repoupdate_json = json.loads(repoupdate_content)
+        click.secho(f"Error {repoupdate_status}. Please see below:", fg="bright_red")
+        click.secho(repoupdate_json["errors"][0]["message"], fg="yellow")
+    except Exception as e:
+      click.secho("There has been an exception error!", fg="bright_red")
+      traceback.print_exc() # used for debugging
+      click.secho(e)
 
 
 # delete repository command
@@ -140,18 +155,18 @@ def repoupdate():
 def repodelete():
   """Delete a repository."""
   click.secho("This command will DELETE a selected repository!", fg="bright_red", bold=True)
-  repo_type = input("What type of repository would you like to DELETE? (local, remote, or virtual) ")
+  repo_type = input("What type of repository would you like to DELETE? [local, remote, or virtual] ")
 
   # get repository list
   repo_response = requests.get(f"{base_uri}/repositories?type={repo_type}", headers=headers)
   repo_json = repo_response.json()
-  # loop through repo list json
+  # loop through repo json and print to console
   for repo_name in repo_json:
     click.secho(repo_name["key"])
 
   click.secho("This command will DELETE a selected repository!", fg="bright_red", bold=True)
   repo_to_delete = input("What is the name of the repository you wish to delete: ")
-  click.secho(f"Are you sure you want to delete the repository named: {repo_to_delete} [y/n] ", fg="yellow", bold=True, nl=False)
+  click.secho(f"Are you sure you want to delete the repository named: {repo_to_delete} [y/n] ", fg="yellow", nl=False)
   delete_repo = click.getchar()
   delete_answer = delete_repo.lower()
   click.echo()
@@ -283,4 +298,3 @@ cli.add_command(repodelete)
 cli.add_command(userlist)
 cli.add_command(usercreate)
 cli.add_command(userdelete)
-
