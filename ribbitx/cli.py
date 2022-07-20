@@ -140,7 +140,7 @@ def repoupdate():
 @click.command("repo-delete", short_help="Delete a repository.")
 def repodelete():
   """Delete a repository."""
-  click.secho("This command will DELETE a selected local repository!", fg="bright_red", bold=True)
+  click.secho("This command will DELETE a selected repository!", fg="bright_red", bold=True)
   repo_type = input("What type of repository would you like to DELETE? (local, remote, or virtual) ")
 
   # get repository list
