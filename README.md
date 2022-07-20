@@ -15,7 +15,7 @@
 
 ### Version 0.4 Updates
 - Error handling is now working for repo-create command.
-- added ribbitx --version feature.
+- Added "ribbitx --version" feature.
 
 ### Version 0.3 Updates
 - Added color styles to command line prompts.
